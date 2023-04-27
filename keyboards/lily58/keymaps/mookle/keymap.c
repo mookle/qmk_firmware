@@ -90,7 +90,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // |---------|---------|---------|---------|---------|---------|                      |---------|---------|---------|---------|---------|---------|
      XXXXXXX , N_CLOSE , N_SAVE  , XXXXXXX , XXXXXXX , XXXXXXX ,                        N_HOPEN , XXXXXXX , N_VSPLT , XXXXXXX , XXXXXXX , XXXXXXX ,
 // |---------|---------|---------|---------|---------|---------|                      |---------|---------|---------|---------|---------|---------|
-     XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX ,                        N_HSPLT , N_LEFT  , N_DOWN  ,  N_UP   , N_RIGHT , XXXXXXX ,
+     XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX ,                        N_HSPLT , C(KC_N) , C(KC_E) , C(KC_I) , C(KC_O) , XXXXXXX ,
 // |---------|---------|---------|---------|---------|---------|---------|  |---------|---------|---------|---------|---------|---------|---------|
      XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX ,    XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX ,
 // |---------|---------|---------|---------|---------|---------|---------|  |---------|---------|---------|---------|---------|---------|---------|
@@ -116,7 +116,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // |---------|---------|---------|---------|---------|---------|                      |---------|---------|---------|---------|---------|---------|
      XXXXXXX , N_CLOSE , N_SAVE  , XXXXXXX , XXXXXXX , XXXXXXX ,                        N_HOPEN , XXXXXXX , N_VSPLT , XXXXXXX , XXXXXXX , XXXXXXX ,
 // |---------|---------|---------|---------|---------|---------|                      |---------|---------|---------|---------|---------|---------|
-     KC_LCBR , KC_LPRN , KC_LBRC , KC_RBRC , KC_RPRN , KC_RCBR ,                        N_HSPLT , N_LEFT  , N_DOWN  ,  N_UP   , N_RIGHT , XXXXXXX ,
+     KC_LCBR , KC_LPRN , KC_LBRC , KC_RBRC , KC_RPRN , KC_RCBR ,                        N_HSPLT , C(KC_N) , C(KC_E) , C(KC_I) , C(KC_O) , XXXXXXX ,
 // |---------|---------|---------|---------|---------|---------|---------|  |---------|---------|---------|---------|---------|---------|---------|
      _______ , KC_EXLM ,  KC_AT  , S(KC_3) , KC_DLR  , KC_PERC , XXXXXXX ,    XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , _______ ,
 // |---------|---------|---------|---------|---------|---------|---------|  |---------|---------|---------|---------|---------|---------|---------|
