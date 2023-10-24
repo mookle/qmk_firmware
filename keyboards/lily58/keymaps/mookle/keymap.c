@@ -31,7 +31,8 @@ enum custom_keycodes {
   N_VSPLT,
   N_HSPLT,
   N_VOPEN,
-  N_HOPEN
+  N_HOPEN,
+  KC_SECT
 };
 
 // Layer movement
@@ -82,7 +83,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ),
 [_RAISE] = LAYOUT(
 // |---------|---------|---------|---------|---------|---------|                      |---------|---------|---------|---------|---------|---------|
-      KC_F1  ,  KC_F2  ,  KC_F3  ,  KC_F4  ,  KC_F5  ,  KC_F6  ,                        XXXXXXX , XXXXXXX , N_VOPEN , XXXXXXX , XXXXXXX , XXXXXXX ,
+      KC_F1  ,  KC_F2  ,  KC_F3  ,  KC_F4  ,  KC_F5  ,  KC_F6  ,                        XXXXXXX , XXXXXXX , N_VOPEN , XXXXXXX , XXXXXXX , KC_SECT ,
 // |---------|---------|---------|---------|---------|---------|                      |---------|---------|---------|---------|---------|---------|
      XXXXXXX , N_CLOSE , N_SAVE  , XXXXXXX , XXXXXXX , XXXXXXX ,                        N_HOPEN , XXXXXXX , N_VSPLT , XXXXXXX , XXXXXXX , XXXXXXX ,
 // |---------|---------|---------|---------|---------|---------|                      |---------|---------|---------|---------|---------|---------|
@@ -123,6 +124,14 @@ const key_override_t **key_overrides = (const key_override_t *[]){
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
+    case KC_SECT:
+      if (record->event.pressed) {
+        SEND_STRING(SS_DOWN(X_LSFT) SS_DOWN(X_LCTL));
+        SEND_STRING(SS_TAP(X_U));
+        SEND_STRING(SS_UP(X_LSFT) SS_UP(X_LCTL));
+        SEND_STRING(SS_DELAY(100) "00A7" SS_TAP(X_ENTER));
+      }
+      break;
     case T_PANE:
       if (record->event.pressed) {
         SEND_STRING(SS_LCTL("b"));
