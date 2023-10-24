@@ -112,32 +112,17 @@ layer_state_t layer_state_set_user(layer_state_t state) {
   return update_tri_layer_state(state, _LOWER, _RAISE, _COMBO);
 }
 
+const key_override_t at_dquote_override = ko_make_basic(MOD_MASK_SHIFT, KC_2, S(KC_QUOT));
+const key_override_t dquote_at_override = ko_make_basic(MOD_MASK_SHIFT, KC_QUOT, S(KC_2));
+
+const key_override_t **key_overrides = (const key_override_t *[]){
+    &at_dquote_override,
+    &dquote_at_override,
+    NULL // Null terminate the array of overrides!
+};
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
-    case KC_2:
-      if (record->event.pressed) {
-        if (get_mods() && (MOD_BIT(KC_LSFT) || MOD_BIT(KC_RSFT))) {
-          register_code(KC_QUOT);
-        } else {
-          register_code(KC_2);
-        }
-      } else {
-        unregister_code(KC_QUOT);
-        unregister_code(KC_2);
-      }
-      return false; // skip all further processing of this key
-    case KC_QUOT:
-      if (record->event.pressed) {
-        if (get_mods() && (MOD_BIT(KC_LSFT) || MOD_BIT(KC_RSFT))) {
-          register_code(KC_2);
-        } else {
-          register_code(KC_QUOT);
-        }
-      } else {
-        unregister_code(KC_2);
-        unregister_code(KC_QUOT);
-      }
-      return false; // skip all further processing of this key
     case T_PANE:
       if (record->event.pressed) {
         SEND_STRING(SS_LCTL("b"));
