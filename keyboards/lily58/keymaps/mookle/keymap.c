@@ -2,6 +2,7 @@
 
 enum layer_number {
   _COLEMAK = 0,
+  _QWERTY,
   _LOWER,
   _RAISE,
   _COMBO,
@@ -36,10 +37,12 @@ enum custom_keycodes {
 };
 
 // Layer movement
-#define LOWER  MO(_LOWER)
-#define RAISE  MO(_RAISE)
-#define COMBO  MO(_COMBO)
-#define NVIM   MO(_NVIM)
+#define LOWER   MO(_LOWER)
+#define RAISE   MO(_RAISE)
+#define COMBO   MO(_COMBO)
+#define NVIM    MO(_NVIM)
+#define COLEMAK DF(_COLEMAK)
+#define QWERTY  DF(_QWERTY)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_COLEMAK] = LAYOUT(
@@ -51,6 +54,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      KC_BSPC ,  KC_A   ,  KC_R   ,  KC_S   ,   KC_T,    KC_G   ,                         KC_M   ,  KC_N   ,  KC_E   ,  KC_I   ,  KC_O   , KC_ENT  ,
 // |---------|---------|---------|---------|---------|---------|---------|  |---------|---------|---------|---------|---------|---------|---------|
      KC_LSFT ,  KC_Z   ,  KC_X   ,  KC_C   ,   KC_D,    KC_V   , XXXXXXX ,    XXXXXXX ,  KC_K   ,  KC_H   , KC_COMM , KC_DOT  , KC_SLSH , KC_RSFT ,
+// |---------|---------|---------|---------|---------|---------|---------|  |---------|---------|---------|---------|---------|---------|---------|
+                                   KC_LCTL , KC_LGUI ,  LOWER  , KC_SPC  ,    KC_SPC  ,  RAISE  , KC_RGUI , KC_RALT
+//                               |---------|---------|---------|---------|  |---------|---------|---------|---------|
+),
+[_QWERTY] = LAYOUT(
+// |---------|---------|---------|---------|---------|---------|                      |---------|---------|---------|---------|---------|---------|
+     KC_ESC  ,  KC_1   ,  KC_2   ,  KC_3   ,   KC_4  ,  KC_5   ,                         KC_6   ,  KC_7   ,  KC_8   ,  KC_9   ,  KC_0   , KC_EQL  ,
+// |---------|---------|---------|---------|---------|---------|                      |---------|---------|---------|---------|---------|---------|
+     KC_TAB  ,  KC_Q   ,  KC_W   ,  KC_E   ,   KC_R,    KC_T   ,                         KC_Y   ,  KC_U   ,  KC_I   ,  KC_O   ,  KC_P   , KC_QUOT ,
+// |---------|---------|---------|---------|---------|---------|                      |---------|---------|---------|---------|---------|---------|
+     KC_BSPC ,  KC_A   ,  KC_S   ,  KC_D   ,   KC_F,    KC_G   ,                         KC_H   ,  KC_J   ,  KC_K   ,  KC_L   , KC_SCLN , KC_ENT  ,
+// |---------|---------|---------|---------|---------|---------|---------|  |---------|---------|---------|---------|---------|---------|---------|
+     KC_LSFT ,  KC_Z   ,  KC_X   ,  KC_C   ,   KC_B,    KC_V   , XXXXXXX ,    XXXXXXX ,  KC_N   ,  KC_M   , KC_COMM , KC_DOT  , KC_SLSH , KC_RSFT ,
 // |---------|---------|---------|---------|---------|---------|---------|  |---------|---------|---------|---------|---------|---------|---------|
                                    KC_LCTL , KC_LGUI ,  LOWER  , KC_SPC  ,    KC_SPC  ,  RAISE  , KC_RGUI , KC_RALT
 //                               |---------|---------|---------|---------|  |---------|---------|---------|---------|
@@ -72,11 +88,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // |---------|---------|---------|---------|---------|---------|                      |---------|---------|---------|---------|---------|---------|
      KC_GRV  , XXXXXXX , XXXXXXX , KC_NUHS , XXXXXXX , XXXXXXX ,                         KC_F7  ,  KC_F8  ,  KC_F9  , KC_F10  , KC_F11  , KC_F12  ,
 // |---------|---------|---------|---------|---------|---------|                      |---------|---------|---------|---------|---------|---------|
-     XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX ,                        XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX ,
+     XXXXXXX , QWERTY  , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX ,                        XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX ,
 // |---------|---------|---------|---------|---------|---------|                      |---------|---------|---------|---------|---------|---------|
      XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX ,                        XXXXXXX , KC_LEFT , KC_DOWN ,  KC_UP  , KC_RGHT , XXXXXXX ,
 // |---------|---------|---------|---------|---------|---------|---------|  |---------|---------|---------|---------|---------|---------|---------|
-     _______ ,KC_TILDE , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX ,    XXXXXXX , KC_CIRC , KC_AMPR , KC_ASTR , KC_PIPE , KC_NUBS , _______ ,
+     _______ ,KC_TILDE , XXXXXXX , COLEMAK , XXXXXXX , XXXXXXX , XXXXXXX ,    XXXXXXX , KC_CIRC , KC_AMPR , KC_ASTR , KC_PIPE , KC_NUBS , _______ ,
 // |---------|---------|---------|---------|---------|---------|---------|  |---------|---------|---------|---------|---------|---------|---------|
                                    _______ , _______ , _______ , _______ ,    KC_UNDS ,  COMBO  , _______ , _______
 //                               |---------|---------|---------|---------|  |---------|---------|---------|---------|
@@ -130,6 +146,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         SEND_STRING(SS_TAP(X_U));
         SEND_STRING(SS_UP(X_LSFT) SS_UP(X_LCTL));
         SEND_STRING(SS_DELAY(100) "00A7" SS_TAP(X_ENTER));
+        // If not for the SS_DELAY (because kitty unicode_input) then this
+        // one-liner would do the job:
+        //send_unicode_string("§");
       }
       break;
     case T_PANE:
